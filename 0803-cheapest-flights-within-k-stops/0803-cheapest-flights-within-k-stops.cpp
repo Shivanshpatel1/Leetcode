@@ -44,7 +44,7 @@ public:
             int dist = temp.first.second;
             int s = temp.second;
 
-            if(s>k) continue;
+            if(s>k) break;
             //if(node==dst) return distance[dst];
             //if (dist > distance[node]) continue;
 
