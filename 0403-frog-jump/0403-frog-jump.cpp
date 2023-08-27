@@ -1,16 +1,46 @@
 class Solution {
 public:
-    bool canCross(vector<int>& stones) {
-        unordered_map<int , unordered_set<int>> hashMap; 
-        hashMap[stones[0] + 1] = {1};       // Viable Jump Sizes to reach 2nd stone.
-        for(int i = 1 ; i < stones.size() ; ++i){       // Traversing all positions
-            int position = stones[i];                   
-            for(auto it : hashMap[position]){           // Traversing all viable jump sizes that can be used from current position.
-                hashMap[position + it].insert(it);      // Populating the sets of positions that can be reached from current position with a viable jump size.
-                hashMap[position + it + 1].insert(it + 1);
-                hashMap[position + it - 1].insert(it - 1);
-            }
+    unordered_map<int, int> m;
+    int dp[2000][2000];
+
+    int solve(int i, int k, vector<int>& stones) {
+        if (i == stones.size() - 1) {
+            return true;
         }
-        return hashMap[stones.back()].size() != 0;     // Checking the set size of last stone.
+        
+        if (dp[i][k] != -1) {
+            return dp[i][k];
+        }
+
+        bool k0 = false;
+        bool kp = false;
+        bool k1 = false;
+
+        if (m.find(stones[i] + k) != m.end()) {
+            k0 = solve(m[stones[i] + k], k, stones);
+        }
+        if (k > 1 && m.find(stones[i] + k - 1) != m.end()) {
+            kp = solve(m[stones[i] + k - 1], k - 1, stones);
+        }
+        if (m.find(stones[i] + k + 1) != m.end()) {
+            k1 = solve(m[stones[i] + k + 1], k + 1, stones);
+        }
+
+        dp[i][k] = k0 || kp || k1;
+        return dp[i][k];
+    }
+
+    bool canCross(vector<int>& stones) {
+        if (stones[1] - stones[0] != 1) {
+            return false;
+        }
+
+        for (int i = 0; i < stones.size(); i++) {
+            m[stones[i]] = i;
+        }
+        
+        memset(dp, -1, sizeof(dp));
+
+        return solve(1, 1, stones);
     }
 };
