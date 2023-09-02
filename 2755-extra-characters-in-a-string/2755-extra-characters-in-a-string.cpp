@@ -3,8 +3,9 @@ public:
     map<string,int>m;
     int c(int i,string &s,vector<int>&dp){
         if(i>=s.size()) return 0;
-        int ans=INT_MAX;
         if(dp[i]!=-1) return dp[i];
+
+        int ans=INT_MAX;
         ans = 1 + c(i+1,s,dp);
         string k="";
         for(int j=i;j<s.size();j++){
