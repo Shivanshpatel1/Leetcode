@@ -36,13 +36,13 @@ public:
             if(head==NULL){
                 head=top;
                 tail=top;
-                if(tail->next){
+                if(top->next){
                     minHeap.push(tail->next);
                 }
             }else{
                 tail->next=top;
                 tail=top;
-                if(tail->next){
+                if(top->next){
                     minHeap.push(tail->next);
                 }
             }
