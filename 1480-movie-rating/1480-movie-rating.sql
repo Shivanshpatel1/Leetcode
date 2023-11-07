@@ -8,6 +8,6 @@ union all
 (Select m.title as results
 from MovieRating as r inner join Movies as m
 on m.movie_id = r.movie_id 
-and r.created_at like "2020-02-%"
+where r.created_at like "2020-02-%"
 Group By r.movie_id 
 Order by avg(r.rating) desc, m.title limit 1);
